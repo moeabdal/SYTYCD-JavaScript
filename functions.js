@@ -5,7 +5,7 @@
  * - returns the book object that matches that id
  * - returns undefined if no matching book is found
  ****************************************************************/
-function getBookById(bookId, booksArray) {
+function getBookById(bookId, books) {
   return books.find(book => book.id === bookId);
 }
 
@@ -18,7 +18,7 @@ function getBookById(bookId, booksArray) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   return authors.find(
-    author => author.name.toLowercase() === authorName.toLowercase()
+    author => author.name.toLowerCase() === authorName.toLowerCase()
   );
 }
 
@@ -29,7 +29,7 @@ function getAuthorByName(authorName, authors) {
  *    [{ author: <NAME>, bookCount: <NUMBER_OF_BOOKS> }]
  ****************************************************************/
 function bookCountsByAuthor(authors) {
-  return authors.map(auth => ({
+  return authors.map(author => ({
     author: author.name,
     bookCount: author.books.length
   }));
@@ -78,20 +78,18 @@ function titlesByAuthorName(authorName, authors, books) {
  * Note: assume there will never be a tie
  ****************************************************************/
 function mostProlificAuthor(authors) {
-  let prolificAuthor = authors[authors.length];
+  let prolificAuthor = authors[authors.length - 1];
 
   authors.forEach(author => {
     if (author.books.length > prolificAuthor.books.length) {
       prolificAuthor = author;
     }
   });
-
   return prolificAuthor.name;
-
-  /* One-liner using reduce and a ternary operator */
-  // return authors.reduce((a, b) => (a.books.length > b.books.length ? a : b))
-  //   .name;
 }
+/* One-liner using reduce and a ternary operator */
+// return authors.reduce((a, b) => (a.books.length > b.books.length ? a : b))
+//   .name;
 
 /**************************************************************
  * relatedBooks(bookId, authors, books):
@@ -116,6 +114,7 @@ function mostProlificAuthor(authors) {
  *
  * BONUS: REMOVE DUPLICATE BOOKS
  ****************************************************************/
+
 function relatedBooks(bookId, authors, books) {
   const book = getBookById(bookId, books);
   let titles = [];
